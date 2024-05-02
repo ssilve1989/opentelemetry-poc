@@ -56,7 +56,9 @@
     "ioredis": "^5.4.1",
     "pg": "^8.11.5",
     "pino": "^9.0.0",
+    "pino-http": "^9.0.0",
     "pino-pretty": "^11.0.0",
+    "prom-client": "^15.1.2",
     "redis": "^4.6.13",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"

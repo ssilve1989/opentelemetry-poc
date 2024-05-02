@@ -1,17 +1,20 @@
 import { ReflectionService } from '@grpc/reflection';
-import { LoggerService } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { GrpcOptions, Transport } from '@nestjs/microservices';
 import path from 'node:path';
 import { AppModule } from './app.module.js';
 import { PinoLoggerService } from './logger/logger.service.js';
+import prom from 'prom-client';
+import { pinoHttp } from 'pino-http';
+
+prom.collectDefaultMetrics();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
 
-  const logger = await app.resolve<LoggerService>(PinoLoggerService);
+  const logger = await app.resolve<PinoLoggerService>(PinoLoggerService);
 
   app.useLogger(logger);
 
@@ -26,6 +29,10 @@ async function bootstrap() {
       },
     },
   });
+
+  const server = app.getHttpAdapter();
+  // biome-ignore lint/complexity/useLiteralKeys: <wanna reuse the logger instance easily and im fuggin lazy>
+  server.use(pinoHttp({ logger: logger['logger'] }));
 
   await app.startAllMicroservices();
   await app.listen(8080);
