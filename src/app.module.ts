@@ -1,4 +1,7 @@
-import { OpenTelemetryModule } from '@amplication/opentelemetry-nestjs';
+import {
+  ControllerInjector,
+  OpenTelemetryModule,
+} from '@amplication/opentelemetry-nestjs';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
@@ -16,7 +19,7 @@ import { RedisModule } from './redis/redis.module.js';
     HealthModule,
     RedisModule,
     LoggerModule,
-    OpenTelemetryModule.forRoot(),
+    OpenTelemetryModule.forRoot([ControllerInjector]),
     RatingsModule,
   ],
   controllers: [AppController],

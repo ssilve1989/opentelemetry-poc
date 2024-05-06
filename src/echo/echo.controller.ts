@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { Observable, map } from 'rxjs';
 import {
@@ -8,8 +8,10 @@ import {
   EchoStreamRequest,
 } from './echo.interfaces.js';
 import { EchoService } from './echo.service.js';
+import { SampleGuard } from '../sample/sample.guard.js';
 
 @Controller()
+@UseGuards(SampleGuard)
 class EchoController implements EchoServiceController {
   constructor(private readonly service: EchoService) {}
 
