@@ -17,3 +17,6 @@ node --loader=import-in-the-middle/hook.mjs
 ## Auto Detect Resources
 
 Figure out what this actually does? Whats the perf impact of letting it auto-detect.
+
+> [!INFO]
+> If you set your resource attributes via environment variable and code, the values set via the environment variable take precedence.

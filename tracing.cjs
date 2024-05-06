@@ -10,6 +10,8 @@ const {
   getNodeAutoInstrumentations,
 } = require('@opentelemetry/auto-instrumentations-node');
 const { NodeAutoInstrumentationsDefaultConfig } = require('./config.cjs');
+const { dockerCGroupV1Detector } = require('@opentelemetry/resource-detector-docker');
+const { envDetector, processDetector } = require('@opentelemetry/resources');
 
 // For troubleshooting, set the log level to DiagLogLevel.DEBUG
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.INFO);
@@ -24,15 +26,17 @@ api.propagation.setGlobalPropagator(
 );
 
 const sdk = new NodeSDK({
+  autoDetectResources: false,
+  instrumentations: getNodeAutoInstrumentations(NodeAutoInstrumentationsDefaultConfig),
+  resourceDetectors: [dockerCGroupV1Detector, envDetector, processDetector],
   serviceName: 'opentelemetry-example-nestjs',
-  traceExporter,
   spanProcessors: [new tracing.BatchSpanProcessor(traceExporter)],
+  traceExporter,
   // this is required to be null if registering a global propagator
   // it is unclear why
   // @ts-expect-error
   textMapPropagator: null, 
-  autoDetectResources: true,
-  instrumentations: getNodeAutoInstrumentations(NodeAutoInstrumentationsDefaultConfig),
+  
 });
 
 sdk.start();
