@@ -1,5 +1,5 @@
 import pg from 'pg';
-import { InsertMovie, InsertRating, movies, ratings } from './schema.js';
+import { InsertMovie, InsertRating, movies, ratings } from './schema';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { faker } from '@faker-js/faker';
 

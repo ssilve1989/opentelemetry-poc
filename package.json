@@ -10,7 +10,7 @@
     "drizzle": "drizzle-kit",
     "drizzle:generate": "drizzle-kit generate:pg",
     "drizzle:push": "drizzle-kit push:pg",
-    "drizzle:seed": "node --loader ts-node/esm ./src/db/seed.ts",
+    "drizzle:seed": "ts-node ./src/db/seed.ts",
     "drizzle:studio": "drizzle-kit studio",
     "format": "biome format . --write",
     "start:debug": "nest start --debug --watch",
