@@ -14,7 +14,7 @@
     "drizzle:studio": "drizzle-kit studio",
     "format": "biome format . --write",
     "start:debug": "nest start --debug --watch",
-    "start:dev": "nest start --watch",
+    "start:dev": "NODE_OPTIONS=\"--require ./tracing.cjs\" nest start --watch",
     "start": "node --require ./tracing.cjs dist/main",
     "lint": "biome lint --diagnostic-level=error src",
     "lint:ci": "biome ci src",
