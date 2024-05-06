@@ -1,7 +1,7 @@
+// @ts-check
 const { DiagConsoleLogger, DiagLogLevel, diag } = require('@opentelemetry/api');
 const { ZipkinExporter } = require('@opentelemetry/exporter-zipkin');
-const { NodeSDK, api } = require('@opentelemetry/sdk-node');
-const { BatchSpanProcessor } = require('@opentelemetry/sdk-trace-base');
+const { NodeSDK, api, tracing } = require('@opentelemetry/sdk-node');
 const {
   B3Propagator,
   B3InjectEncoding,
@@ -26,12 +26,12 @@ api.propagation.setGlobalPropagator(
 const sdk = new NodeSDK({
   serviceName: 'opentelemetry-example-nestjs',
   traceExporter,
-  spanProcessors: [new BatchSpanProcessor(traceExporter)],
+  spanProcessors: [new tracing.BatchSpanProcessor(traceExporter)],
   // this is required to be null if registering a global propagator
   // it is unclear why
+  // @ts-expect-error
   textMapPropagator: null, 
   autoDetectResources: true,
-  // instrumentations: [...getNodeAutoInstrumentations()],
   instrumentations: getNodeAutoInstrumentations(NodeAutoInstrumentationsDefaultConfig),
 });
 
